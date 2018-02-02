@@ -379,6 +379,36 @@ Rails.application.routes.draw do
     end
   end
 
+  ## Groups
+  scope '/groups', as: 'groups' do
+    # /groups
+    get '/', to: 'groups#index'
+    lookupable('groups#lookup_by_letters')
+    listable('groups#a_to_z', 'groups#letters')
+    scope '/current', as: 'current' do
+      get '/', to: 'groups#current'
+      listable('groups#a_to_z_current', 'groups#current_letters')
+    end
+
+    # /groups/:group_id
+    scope '/:group_id', as: 'show' do
+      get '/', to: 'groups#show'
+    end
+    ## Groups/government-departments
+    # /groups/government-departments
+    scope '/government_departments', as: 'government_departments' do
+      get '/', to: 'groups/government_departments#index'
+      listable('groups/government_departments#a_to_z', 'groups/government_departments#letters')
+
+      scope '/current', as: 'current' do
+        get '/', to: 'groups/government_departments#current'
+        listable('groups/government_departments#a_to_z_current', 'groups/government_departments#current_letters')
+      end
+    end
+  end
+
+
+
   ## Committees ##
   scope '/committees', as: 'committees' do
     # /committees
